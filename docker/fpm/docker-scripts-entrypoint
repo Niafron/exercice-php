@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Directory for the entrypoint sub-scripts
+# All files in this directory are executed
+# before the main docker command
+ENTRYPOINT_DIR=/etc/entrypoint.d
+
+echo "[entrypoint] Running scripts in ${ENTRYPOINT_DIR}"
+
+for script in $(find ${ENTRYPOINT_DIR} -name '*.sh')
+do
+    echo "[entrypoint] -> Running: ${script}"
+    ${script}
+done
+
+docker-php-entrypoint "$@"
