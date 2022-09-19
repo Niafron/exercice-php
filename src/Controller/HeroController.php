@@ -52,6 +52,25 @@ class HeroController extends AbstractController
             Response::HTTP_OK);
     }
 
+
+    #[Route('/hero/{id}/potions', name: 'app_get_hero_potions')]
+    public function getHeroPotions(Request $request): JsonResponse
+    {
+        $heroId = $request->get('id', null);
+        if (!$heroId) {
+            return $this->generateJsonErrorResponse('You must give an id!');
+        }
+
+        $hero = $this->heroRepository->find($heroId);
+        if (!$hero) {
+            return $this->generateJsonErrorResponse('Unable to find some hero with the given id!');
+        }
+
+        return new JsonResponse(
+            $this->serializer->serialize($hero->getPotions(), 'json'),
+            Response::HTTP_OK);
+    }
+
     private function generateJsonErrorResponse(string $message, int $code = Response::HTTP_BAD_REQUEST)
     {
         return new JsonResponse(

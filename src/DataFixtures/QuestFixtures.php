@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Hero;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use App\Entity\Potion;
 
 class QuestFixtures extends Fixture
 {
@@ -32,5 +33,33 @@ class QuestFixtures extends Fixture
             ->setLevel(5));
 
         $manager->flush();
+
+
+        
+        $beowulf = $manager->getRepository(Hero::class)->find(2);
+        $diane = $manager->getRepository(Hero::class)->find(3);
+
+        $manager->persist((new Potion())
+            ->setName('Potion1')
+            ->setBonus(1)
+            ->setHero($beowulf)
+            );
+
+
+            $manager->persist((new Potion())
+            ->setName('Potion2')
+            ->setBonus(1)
+            ->setHero($diane)
+            );
+
+
+            $manager->persist((new Potion())
+            ->setName('Potion3')
+            ->setBonus(1)
+            ->setHero($diane)
+            );
+
+            $manager->flush();
+
     }
 }
